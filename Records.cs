@@ -3,33 +3,31 @@
     [Serializable]
     public class Records
     {
-        private Player recordPlayer_Slow = new Player(SpeedOptions.Slow);
-        private Player recordPlayer_Medium = new Player(SpeedOptions.Medium);
-        private Player recordPlayer_Fast = new Player(SpeedOptions.Fast);
-        public Player RecordPlayer_Slow { get { return recordPlayer_Slow; } set { recordPlayer_Slow = value; } }
-        public Player RecordPlayer_Medium { get { return recordPlayer_Medium; } set { recordPlayer_Medium = value; } }
-        public Player RecordPlayer_Fast { get { return recordPlayer_Fast; } set { recordPlayer_Fast = value; } }
-        private Records() { }
-        public Records(Player player) : this()
+        public Player RecordPlayer_Slow { get; set; } = new Player();
+        public Player RecordPlayer_Medium { get; set; } = new Player();
+        public Player RecordPlayer_Fast { get; set; } = new Player();
+
+        public Records(Player player)
         {
             ModifyRecords(player);
         }
+
         public void ModifyRecords(Player player)
         {
-            if (player.speed == SpeedOptions.Slow && player.score > recordPlayer_Slow.score)
+            if (player.Speed == SpeedOptions.Slow && player.Score > RecordPlayer_Slow.Score)
             {
-                recordPlayer_Slow.name = player.name;
-                recordPlayer_Slow.score = player.score;
+                RecordPlayer_Slow.Name = player.Name;
+                RecordPlayer_Slow.Score = player.Score;
             }
-            else if (player.speed == SpeedOptions.Medium && player.score > recordPlayer_Medium.score)
+            else if (player.Speed == SpeedOptions.Medium && player.Score > RecordPlayer_Medium.Score)
             {
-                recordPlayer_Medium.name = player.name;
-                recordPlayer_Medium.score = player.score;
+                RecordPlayer_Medium.Name = player.Name;
+                RecordPlayer_Medium.Score = player.Score;
             }
-            else if (player.speed == SpeedOptions.Fast && player.score > recordPlayer_Fast.score)
+            else if (player.Speed == SpeedOptions.Fast && player.Score > RecordPlayer_Fast.Score)
             {
-                recordPlayer_Fast.name = player.name;
-                recordPlayer_Fast.score = player.score;
+                RecordPlayer_Fast.Name = player.Name;
+                RecordPlayer_Fast.Score = player.Score;
             }
         }
     }

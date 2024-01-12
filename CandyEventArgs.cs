@@ -2,8 +2,8 @@
 {
     public class CandyEventArgs : EventArgs
     {
-        public SnakeModel Snake { get; }
-        public CandyEventArgs(SnakeModel s) : base()
+        public Snake Snake { get; }
+        public CandyEventArgs(Snake s) : base()
         {
             Snake = s;
         }

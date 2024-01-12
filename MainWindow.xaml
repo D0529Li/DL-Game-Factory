@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="DL Game Factory" Height="600" Width="1250" Background="LightBlue">
+        Title="DL Game Factory" Height="500" Width="1200" Background="LightBlue" WindowStartupLocation="CenterScreen">
     <Grid>
         <StackPanel Orientation="Vertical">
             <TextBlock Text="Welcome to the Game Factory designed by David Li." HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="50" FontFamily="Times New Roman" Margin="0,30,0,0"/>
@@ -16,10 +16,5 @@
                 <Button Content="PH2" FontFamily="Times New Roman" FontSize="40" HorizontalAlignment="Center" Padding="50" Margin="30,0,30,0" />
             </StackPanel>
         </StackPanel>
-        
-        
-
-        <!--<Button Name="ChoiceEnglish"  Content="English" HorizontalAlignment="Left" Margin="464,310,0,0" VerticalAlignment="Top" Width="224" Height="102" Background="#00000000" FontSize="48" ScrollViewer.VerticalScrollBarVisibility="Disabled" BorderBrush="#00000000" Click="ChoiceEnglish_Click" Grid.Column="1"/>
-        <Button Name="ChoiceChinese" Content="中文" HorizontalAlignment="Left" Margin="464,446,0,0" VerticalAlignment="Top" Width="224" Height="116" Background="#00000000" FontSize="48" ScrollViewer.VerticalScrollBarVisibility="Disabled" BorderBrush="#00000000" Click="ChoiceChinese_Click" Grid.Column="1"/>-->
     </Grid>
 </Window>

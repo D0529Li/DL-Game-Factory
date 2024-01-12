@@ -3,22 +3,30 @@
     [Serializable]
     public class Player
     {
-        public string name { get; set; }
-        public int score { get; set; }
-        public SpeedOptions speed { get; set; }
-        public Player() { score = 0; }
-        public Player(SpeedOptions playerSpeed) : this() { speed = playerSpeed; }
+        public string? Name { get; set; } = null;
+        public int Score { get; set; } = 0;
+        public SpeedOptions Speed { get; set; }
+
+        #region constructors
+
+        public Player() { Speed = SpeedOptions.Not_Selected; }
+
+        public Player(SpeedOptions playerSpeed) { Speed = playerSpeed; }
+
         public Player(string playerName, int playerScore, SpeedOptions playerSpeed)
         {
-            name = playerName;
-            score = playerScore;
-            speed = playerSpeed;
+            Name = playerName;
+            Score = playerScore;
+            Speed = playerSpeed;
         }
+
         public Player(Player player)
         {
-            name = player.name;
-            score = player.score;
-            speed = player.speed;
+            Name = player.Name;
+            Score = player.Score;
+            Speed = player.Speed;
         }
+
+        #endregion
     }
 }

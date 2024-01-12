@@ -6,8 +6,10 @@
         mc:Ignorable="d"
         Title="Remove Records" Background="LightGray" Height="450" Width="800">
     <Grid>
-        <TextBlock Text="This page is for administrators only. Press Cancel if you misclicked, or enter the password below for authentication." HorizontalAlignment="Left" Margin="10,36,0,0" FontFamily="Comic Sans MS" VerticalAlignment="Top" FontSize="20" />
-        
+        <TextBlock TextWrapping="Wrap" HorizontalAlignment="Left" Margin="10,36,0,0" FontFamily="Comic Sans MS" VerticalAlignment="Top" FontSize="20" Height="62" >
+            This page is for administrators only. Press Cancel if you misclicked, or enter the password below for authentication.
+        </TextBlock>
+
         <Button Content="Cancel" HorizontalAlignment="Left" Background="#FF060606" BorderBrush="#FF917A7A" Margin="51,245,0,0" VerticalAlignment="Top" Width="135" Height="51" Foreground="#FFFBECEC" FontSize="24" Click="CancelButton_Click"/>
         <TextBlock HorizontalAlignment="Left" Margin="244,268,0,0" TextWrapping="Wrap" Text="Enter password:" VerticalAlignment="Top" Height="28" Width="158" FontSize="18" FontFamily="Berlin Sans FB"/>
         <TextBox Background="#FF9B7070" FontSize="20" FontFamily="Times New Roman" BorderBrush="Transparent" HorizontalAlignment="Left" Height="23" Margin="407,268,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" TextChanged="TextBox_TextChanged"/>
