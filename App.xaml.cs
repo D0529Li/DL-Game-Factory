@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace DL_Game_Project
+namespace DL_Game_Factory
 {
     /// <summary>
     /// Interaction logic for App.xaml

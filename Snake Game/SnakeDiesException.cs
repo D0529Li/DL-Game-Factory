@@ -1,4 +1,4 @@
-﻿namespace DL_Game_Project
+﻿namespace DL_Game_Factory
 {
     public class SnakeDiesException : Exception
     {

@@ -2,7 +2,7 @@
 using System.Windows;
 using System.Xml.Serialization;
 
-namespace DL_Game_Project
+namespace DL_Game_Factory
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml

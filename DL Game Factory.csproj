@@ -3,10 +3,31 @@
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>net8.0-windows</TargetFramework>
-    <RootNamespace>DL_Game_Project</RootNamespace>
+    <RootNamespace>DL_Game_Factory</RootNamespace>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
   </PropertyGroup>
+
+  <ItemGroup>
+    <ContentWithTargetPath Include="Images\*">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <TargetPath>Images\%(Filename)%(Extension)</TargetPath>
+    </ContentWithTargetPath>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Images\Pause.jpg" />
+    <None Remove="Images\Resume.jpg" />
+    <None Remove="Images\Snake.jpg" />
+    <None Remove="Images\Stop.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Images\Pause.jpg" />
+    <Resource Include="Images\Resume.jpg" />
+    <Resource Include="Images\Snake.jpg" />
+    <Resource Include="Images\Stop.jpg" />
+  </ItemGroup>
 
 </Project>

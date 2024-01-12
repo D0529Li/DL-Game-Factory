@@ -1,4 +1,4 @@
-﻿<Application x:Class="DL_Game_Project.App"
+﻿<Application x:Class="DL_Game_Factory.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              StartupUri="MainWindow.xaml">

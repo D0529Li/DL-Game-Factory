@@ -9,7 +9,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Xml.Serialization;
 
-namespace DL_Game_Project
+namespace DL_Game_Factory
 {
     /// <summary>
     /// Interaction logic for StartGame.xaml
@@ -22,7 +22,7 @@ namespace DL_Game_Project
 
         private Player player = new Player();
         private Candy candy = new Candy();
-        private Snake? snake = null;
+        private Snake snake = new Snake();
 
         private bool gameStarted = false;
         private SpeedOptions speed = SpeedOptions.Not_Selected;
@@ -211,22 +211,26 @@ namespace DL_Game_Project
                 MessageBox.Show("No record found.");
             }
         }
-        //private void PauseGameButton_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        //{
-        //    PauseGameButton.Visibility = Visibility.Hidden;
-        //    ResumeGameButton.Visibility = Visibility.Visible;
-        //    _snake.TimerStop();
-        //}
-        //private void ResumeGameButton_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        //{
-        //    PauseGameButton.Visibility = Visibility.Visible;
-        //    ResumeGameButton.Visibility = Visibility.Hidden;
-        //    _snake.TimerBegin();
-        //}
-        private void ExitGameButton_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+
+        private void PauseGameButton_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            PauseGameButton.Visibility = Visibility.Hidden;
+            ResumeGameButton.Visibility = Visibility.Visible;
+            snake.PauseGame();
+        }
+
+        private void ResumeGameButton_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            PauseGameButton.Visibility = Visibility.Visible;
+            ResumeGameButton.Visibility = Visibility.Hidden;
+            snake.ResumeGame();
+        }
+
+        private void StopGameButton_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             Close();
         }
+
         private void AboutGameButton_Click(object sender, RoutedEventArgs e)
         {
             MessageBox.Show("Place holder about game");

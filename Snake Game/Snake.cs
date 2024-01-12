@@ -1,14 +1,14 @@
 ﻿using System.Timers;
 using System.Windows;
 
-namespace DL_Game_Project
+namespace DL_Game_Factory
 {
     public class Snake
     {
         public delegate void TimerDelegate(int a, int b);
-        public int maxIndex = 15;
+        public const int GRID_SIZE = 15;
         public List<SnakePosition> BodyPositions = new();
-        public Directions Direction { get; set; }
+        public Direction Direction { get; set; }
         private System.Timers.Timer timer;
         public SpeedOptions Speed { get; set; }
 
@@ -19,7 +19,7 @@ namespace DL_Game_Project
             BodyPositions.Add(new(0, 2));
             BodyPositions.Add(new(0, 3));
 
-            Direction = Directions.right;
+            Direction = Direction.right;
 
             timer = Speed switch
             {
@@ -46,19 +46,19 @@ namespace DL_Game_Project
         //    };
         //}
 
-        public void ChangeDirection(Directions direction)
+        public void ChangeDirection(Direction direction)
         {
             switch (direction)
             {
-                case Directions.left: if (direction != Directions.right) Direction = direction; break;
-                case Directions.right: if (direction != Directions.left) Direction = direction; break;
-                case Directions.up: if (direction != Directions.down) Direction = direction; break;
-                case Directions.down: if (direction != Directions.up) Direction = direction; break;
+                case Direction.left: if (direction != Direction.right) Direction = direction; break;
+                case Direction.right: if (direction != Direction.left) Direction = direction; break;
+                case Direction.up: if (direction != Direction.down) Direction = direction; break;
+                case Direction.down: if (direction != Direction.up) Direction = direction; break;
                 default: break;
             }
         }
 
-        public void Timer_Elapsed(object sender, ElapsedEventArgs e)
+        public void Timer_Elapsed(object? sender, ElapsedEventArgs e)
         {
             Move();
         }
@@ -67,7 +67,7 @@ namespace DL_Game_Project
         {
             try
             {
-                BodyPositions.Add(BodyPositions[^1].Move(Direction, maxIndex));
+                BodyPositions.Add(BodyPositions[^1].Move(Direction, GRID_SIZE));
             }
             catch (SnakeDiesException e)
             {
@@ -76,6 +76,29 @@ namespace DL_Game_Project
                 return;
             }
             BodyPositions.RemoveAt(0);
+        }
+
+        public void StartGame()
+        {
+            timer.Elapsed += Timer_Elapsed;
+            timer.Start();
+        }
+
+        public void PauseGame()
+        {
+            timer.Stop();
+        }
+
+        public void ResumeGame()
+        {
+            timer.Start();
+        }
+
+        public void StopGame()
+        {
+            timer.Stop();
+            timer.Elapsed -= Timer_Elapsed;
+            BodyPositions.Clear();
         }
 
         //private void SetBlack(int x, int y)

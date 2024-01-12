@@ -1,28 +1,28 @@
-﻿namespace DL_Game_Project
+﻿namespace DL_Game_Factory
 {
     public class SnakePosition(int x, int y)
     {
         public int X { get; set; } = x;
         public int Y { get; set; } = y;
 
-        public SnakePosition Move(Directions direction, int maxIndex)
+        public SnakePosition Move(Direction direction, int maxIndex)
         {
             int newX = X, newY = Y;
             switch (direction)
             {
-                case Directions.left:
+                case Direction.left:
                     if (Y == 0) throw new SnakeDiesException();
                     newY--;
                     break;
-                case Directions.right:
+                case Direction.right:
                     if (Y >= maxIndex) throw new SnakeDiesException();
                     newY++;
                     break;
-                case Directions.up:
+                case Direction.up:
                     if (X == 0) throw new SnakeDiesException();
                     newX--;
                     break;
-                case Directions.down:
+                case Direction.down:
                     if (X >= maxIndex) throw new SnakeDiesException();
                     newX++;
                     break;

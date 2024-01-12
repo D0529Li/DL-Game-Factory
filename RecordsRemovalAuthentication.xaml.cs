@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 
-namespace DL_Game_Project
+namespace DL_Game_Factory
 {
     /// <summary>
     /// Interaction logic for RecordsRemovalAuthentication.xaml

@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using System.Windows.Input;
 
-namespace DL_Game_Project
+namespace DL_Game_Factory
 {
     public class SnakeGameViewModel: INotifyPropertyChanged
     {
@@ -53,15 +53,15 @@ namespace DL_Game_Project
             OnPropertyChanged(nameof(NewGamePanelVisibility));
         }
 
-        public void PauseGame()
-        {
+        //public void PauseGame()
+        //{
 
-        }
+        //}
 
-        public void StopGame()
-        {
+        //public void StopGame()
+        //{
 
-        }
+        //}
 
         public void StartGame(object param)
         {
