@@ -13,6 +13,7 @@ namespace DL_Game_Factory
         private List<SnakePosition> BodyPositions = new();
         public Direction Direction { get; set; }
         private System.Timers.Timer timer = new();
+        private Candy candy = new Candy(SnakeConstants.DEFAULT_GRID_SIZE);
         public SpeedOptions Speed { get; set; } = SpeedOptions.Not_Selected;
 
         public Snake() { }
@@ -46,7 +47,7 @@ namespace DL_Game_Factory
                 oldPos = BodyPositions.First();
                 BodyPositions.Add(BodyPositions[^1].Move(Direction, SnakeConstants.DEFAULT_GRID_SIZE));
             }
-            catch (SnakeDiesException e)
+            catch (SnakeDiesExceptions e)
             {
                 timer.Stop();
                 MessageBox.Show(e.Message + "\nYour score is " + $"{BodyPositions.Count}");
@@ -97,6 +98,28 @@ namespace DL_Game_Factory
             timer.Stop();
             timer.Elapsed -= Timer_Elapsed;
             BodyPositions.Clear();
+        }
+
+        private void Check()
+        {
+            // Snake bites itself
+            if (BodyPositions.Count != BodyPositions.Distinct().Count())
+                throw new SnakeDiesExceptions(SnakeDiesReason.Snake_Bites_Itself);
+
+            // Snake hits the wall
+
+            // Snake eats candy
+            if (BodyPositions.Last() == new SnakePosition(candy.X, candy.Y))
+            {
+                candy.GenerateCandy();
+                throw new SnakeEatsCandyException();
+            }
+        }
+
+        private void CheckIfSnakeEatsItself()
+        {
+            if (BodyPositions.Count != BodyPositions.Distinct().Count())
+                throw new SnakeDiesExceptions(SnakeDiesReason.Snake_Bites_Itself);
         }
     }
 }

@@ -44,7 +44,7 @@
                     <Button Name="SpeedMediumButton" Content="Medium" Width="180" Height="60" FontSize="40" Margin="5,0,0,0" Background="Gray" Command="{Binding SetSpeedCommand}" CommandParameter="Medium" Click="SpeedMediumButton_Click" />
                     <Button Name="SpeedFastButton" Content="Fast" Width="180" Height="60" FontSize="40" Margin="5,0,0,0" Background="Gray" Command="{Binding SetSpeedCommand}" CommandParameter="Fast" Click="SpeedFastButton_Click" />
                 </StackPanel>
-                <Button Content="Start Game! " FontSize="40" Margin="100,50,100,0" Padding="20" Click="StartGameButton_Click" Command="{Binding SetNameCommand}" CommandParameter="{Binding ElementName=NameTextBox, Path=Text}" />
+                <Button Content="Start Game! " FontSize="40" Margin="100,50,100,0" Padding="20" Click="StartGameButton_Click" Command="{Binding StartGameCommand}" CommandParameter="{Binding ElementName=PlayerNameTextBox, Path=Text}" />
             </StackPanel>
         </StackPanel>
 
@@ -62,7 +62,7 @@
         
         <StackPanel Grid.Row="2" Orientation="Horizontal" Background="#FF878CFA">
             <TextBlock Text="Current Score:" Width="300" Height="60" FontSize="40" Margin="60,0,10,0" Foreground="Beige" Background="Transparent" IsHitTestVisible="False"/>
-            <TextBlock Text="{Binding CurrentScore}" Width="40" Height="60" FontSize="40" Margin="0,0,10,0" Foreground="Beige" Background="Transparent" IsHitTestVisible="False"/>
+            <TextBlock Text="{Binding Score}" Width="40" Height="60" FontSize="40" Margin="0,0,10,0" Foreground="Beige" Background="Transparent" IsHitTestVisible="False"/>
             <Button Content="About Game" Width="400" Height="60" FontSize="40" Margin="60,0,10,0" BorderBrush="Transparent" Foreground="Beige" Background="Transparent" Click="AboutGameButton_Click"/>
             <Button Content="About Me" Width="300" Height="60" FontSize="40" Margin="60,0,10,0" BorderBrush="Transparent" Foreground="Beige" Background="Transparent" Click="AboutMeButton_Click"/>
         </StackPanel>

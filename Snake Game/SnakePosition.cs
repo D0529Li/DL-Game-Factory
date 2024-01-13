@@ -12,21 +12,21 @@
             {
                 case Direction.Left:
                     if (Y == 0)
-                        throw new SnakeDiesException(SnakeDiesReason.Snake_Hits_The_Wall);
+                        throw new SnakeDiesExceptions(SnakeDiesReason.Snake_Hits_The_Wall);
                     newY--;
                     break;
                 case Direction.Right:
                     if (Y == gridSize - 1)
-                        throw new SnakeDiesException(SnakeDiesReason.Snake_Hits_The_Wall);
+                        throw new SnakeDiesExceptions(SnakeDiesReason.Snake_Hits_The_Wall);
                     newY++;
                     break;
                 case Direction.Up:
-                    if (X == 0) throw new SnakeDiesException(SnakeDiesReason.Snake_Hits_The_Wall);
+                    if (X == 0) throw new SnakeDiesExceptions(SnakeDiesReason.Snake_Hits_The_Wall);
                     newX--;
                     break;
                 case Direction.Down:
                     if (X == gridSize - 1)
-                        throw new SnakeDiesException(SnakeDiesReason.Snake_Hits_The_Wall);
+                        throw new SnakeDiesExceptions(SnakeDiesReason.Snake_Hits_The_Wall);
                     newX++;
                     break;
                 default:

@@ -18,7 +18,6 @@ namespace DL_Game_Factory
         public delegate void TimerDelegate();
 
         private Player player = new Player();
-        private Candy candy = new Candy(SnakeConstants.DEFAULT_GRID_SIZE);
         private Snake snake = new Snake();
 
         // private bool gameStarted = false;
@@ -85,18 +84,6 @@ namespace DL_Game_Factory
             SpeedMediumButton.Background = new SolidColorBrush(Colors.Gray);
             SpeedFastButton.Background = new SolidColorBrush(Colors.YellowGreen);
             speed = SpeedOptions.Fast;
-        }
-
-        private void StartGame()
-        {
-            snakeGameVM.ArrowKeyPressed += snake.ChangeDirection;
-            snake.Initialize(speed);
-            BuildGameGrid();
-            snakeGameVM.StartGame();
-            RenderSnakeOnGameGrid();
-            snake.SnakeMoved += SnakeMovedHandler;
-            snake.StartGame();
-            candy.GenerateCandy();
         }
 
         private void SnakeMovedHandler(SnakePosition oldPos, SnakePosition newPos)
@@ -187,9 +174,27 @@ namespace DL_Game_Factory
             player.Name = PlayerNameTextBox.Text;
             player.Speed = speed;
 
-            if (player.Name == null) MessageBox.Show("Please enter a valid name. ");
-            else if (player.Speed == SpeedOptions.Not_Selected) MessageBox.Show("Please select a speed option.");
-            else StartGame();
+            if (player.Name == null)
+            {
+                MessageBox.Show("Please enter a valid name. "); 
+                return;
+            }
+            if (player.Speed == SpeedOptions.Not_Selected)
+            {
+                MessageBox.Show("Please select a speed option.");
+                return;
+            }
+            player.Speed = speed;
+            player.Name = PlayerNameTextBox.Text;
+
+            snake.SnakeMoved += SnakeMovedHandler;
+            snakeGameVM.ArrowKeyPressed += snake.ChangeDirection;
+
+            snake.Initialize(speed);
+            BuildGameGrid();
+            snakeGameVM.StartGame();
+            RenderSnakeOnGameGrid();
+            snake.StartGame();
         }
 
         private void SaveRecord()
