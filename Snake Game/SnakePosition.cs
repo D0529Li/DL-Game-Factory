@@ -5,25 +5,28 @@
         public int X { get; set; } = x;
         public int Y { get; set; } = y;
 
-        public SnakePosition Move(Direction direction, int maxIndex)
+        public SnakePosition Move(Direction direction, int gridSize)
         {
             int newX = X, newY = Y;
             switch (direction)
             {
-                case Direction.left:
-                    if (Y == 0) throw new SnakeDiesException();
+                case Direction.Left:
+                    if (Y == 0)
+                        throw new SnakeDiesException(SnakeDiesReason.Snake_Hits_The_Wall);
                     newY--;
                     break;
-                case Direction.right:
-                    if (Y >= maxIndex) throw new SnakeDiesException();
+                case Direction.Right:
+                    if (Y == gridSize - 1)
+                        throw new SnakeDiesException(SnakeDiesReason.Snake_Hits_The_Wall);
                     newY++;
                     break;
-                case Direction.up:
-                    if (X == 0) throw new SnakeDiesException();
+                case Direction.Up:
+                    if (X == 0) throw new SnakeDiesException(SnakeDiesReason.Snake_Hits_The_Wall);
                     newX--;
                     break;
-                case Direction.down:
-                    if (X >= maxIndex) throw new SnakeDiesException();
+                case Direction.Down:
+                    if (X == gridSize - 1)
+                        throw new SnakeDiesException(SnakeDiesReason.Snake_Hits_The_Wall);
                     newX++;
                     break;
                 default:

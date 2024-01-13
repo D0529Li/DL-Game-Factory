@@ -4,13 +4,16 @@ using System.Windows.Input;
 
 namespace DL_Game_Factory
 {
-    public class SnakeGameViewModel: INotifyPropertyChanged
+    public class SnakeGameViewModel : INotifyPropertyChanged
     {
         private static int maxIndex = 29;
         public Player player { get; set; }
         public int Score { get; set; }
         public bool MainControlPanelVisibility { get; set; }
         public bool NewGamePanelVisibility { get; set; }
+
+        public delegate void ArrowKeyPressedHandler(Direction direction);
+        public event ArrowKeyPressedHandler? ArrowKeyPressed;
 
         public SpeedOptions Speed { get; set; }
 
@@ -28,6 +31,11 @@ namespace DL_Game_Factory
         public static RoutedCommand GoDownCommand = new RoutedCommand("Go Down", typeof(SnakeGameViewModel),
             new InputGestureCollection(new List<InputGesture> { new KeyGesture(Key.Down) }));
 
+        public ICommand LeftArrowKeyCommand { get; set; }
+        public ICommand RightArrowKeyCommand { get; set; }
+        public ICommand UpArrowKeyCommand { get; set; }
+        public ICommand DownArrowKeyCommand { get; set; }
+
         public ICommand NewGameCommand { get; set; }
         public ICommand StartGameCommand { get; set; }
 
@@ -37,6 +45,10 @@ namespace DL_Game_Factory
         {
             NewGameCommand = new DelegateCommand<object>(NewGame);
             StartGameCommand = new DelegateCommand<object>(StartGame);
+            LeftArrowKeyCommand = new DelegateCommand<object>(OnPressLeftArrowKey);
+            RightArrowKeyCommand = new DelegateCommand<object>(OnPressRightArrowKey);
+            UpArrowKeyCommand = new DelegateCommand<object>(OnPressUpArrowKey);
+            DownArrowKeyCommand = new DelegateCommand<object>(OnPressDownArrowKey);
 
             MainControlPanelVisibility = true;
             NewGamePanelVisibility = false;
@@ -86,6 +98,25 @@ namespace DL_Game_Factory
             OnPropertyChanged(nameof(NewGamePanelVisibility));
         }
 
+        public void OnPressLeftArrowKey(object param)
+        {
+            ArrowKeyPressed?.Invoke(Direction.Left);
+        }
+
+        public void OnPressRightArrowKey(object param)
+        {
+            ArrowKeyPressed?.Invoke(Direction.Right);
+        }
+
+        public void OnPressUpArrowKey(object param)
+        {
+            ArrowKeyPressed?.Invoke(Direction.Up);
+        }
+
+        public void OnPressDownArrowKey(object param)
+        {
+            ArrowKeyPressed?.Invoke(Direction.Down);
+        }
 
         #region INotifyPropertyChanged Implements
 

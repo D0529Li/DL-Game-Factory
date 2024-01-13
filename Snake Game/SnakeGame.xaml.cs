@@ -1,8 +1,6 @@
 ﻿using System.ComponentModel;
 using System.IO;
-using System.Runtime.CompilerServices;
 using System.Text;
-using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -16,28 +14,27 @@ namespace DL_Game_Factory
     /// </summary>
     public partial class SnakeGame : Window, INotifyPropertyChanged
     {
-        private const int GRID_SIZE = 13;
 
         public delegate void TimerDelegate();
 
         private Player player = new Player();
-        private Candy candy = new Candy();
+        private Candy candy = new Candy(SnakeConstants.DEFAULT_GRID_SIZE);
         private Snake snake = new Snake();
 
-        private bool gameStarted = false;
+        // private bool gameStarted = false;
         private SpeedOptions speed = SpeedOptions.Not_Selected;
 
-        private SnakeGameViewModel _snakeGameViewModel;
+        private SnakeGameViewModel snakeGameVM;
 
         public SnakeGame()
         {
             InitializeComponent();
-            DataContext = _snakeGameViewModel = new SnakeGameViewModel();
+            DataContext = snakeGameVM = new SnakeGameViewModel();
         }
 
         private void NewGameButton_Click(object sender, RoutedEventArgs e)
         {
-            
+
         }
 
         private void RecordsButton_Click(object sender, RoutedEventArgs e)
@@ -67,7 +64,7 @@ namespace DL_Game_Factory
         {
             Close();
         }
-        
+
         private void SpeedSlowButton_Click(object sender, RoutedEventArgs e)
         {
             SpeedSlowButton.Background = new SolidColorBrush(Colors.YellowGreen);
@@ -92,27 +89,22 @@ namespace DL_Game_Factory
 
         private void StartGame()
         {
+            snakeGameVM.ArrowKeyPressed += snake.ChangeDirection;
+            snake.Initialize(speed);
             BuildGameGrid();
-            _snakeGameViewModel.StartGame();
-            //if (!gameStarted)
-            //{
-            //    _snake = new Snake(_player.Speed);
-            //    Grid gameGrid = _snake.GameGrid;
-            //    mainCanvas.Children.Add(gameGrid);
-            //    gameGrid.SetValue(Canvas.LeftProperty, (double)600);
-            //    gameGrid.SetValue(Canvas.TopProperty, (double)20);
-            //    _snake.myTimer.Elapsed += CheckCandyEaten;
-            //    gameStarted = true;
-            //}
-            //else _snake.ChangeSpeed(_player.Speed);
-            //SetVisibility_GameGrid(Visibility.Visible);
-            //SetVisibility_PauseAndExitButton(Visibility.Visible);
-            //GenerateNewCandy();
-            //_snake.TimerBegin();
-            //CurrentScore = _snake.Length;
+            snakeGameVM.StartGame();
+            RenderSnakeOnGameGrid();
+            snake.SnakeMoved += SnakeMovedHandler;
+            snake.StartGame();
+            candy.GenerateCandy();
         }
 
-        private void BuildGameGrid(int rows = GRID_SIZE, int cols = GRID_SIZE)
+        private void SnakeMovedHandler(SnakePosition oldPos, SnakePosition newPos)
+        {
+            RenderSnakeOnGameGrid(oldPos, newPos);
+        }
+
+        private void BuildGameGrid(int rows = SnakeConstants.DEFAULT_GRID_SIZE, int cols = SnakeConstants.DEFAULT_GRID_SIZE)
         {
             GameGrid.RowDefinitions.Clear();
             GameGrid.ColumnDefinitions.Clear();
@@ -123,8 +115,8 @@ namespace DL_Game_Factory
                     Height = new GridLength(45), // auto?
                     Name = $"GameGridRow{i}",
                 };
-                
                 GameGrid.RowDefinitions.Add(newRow);
+                GameGrid.RegisterName(newRow.Name, newRow);
             }
             for (int i = 0; i < cols; i++)
             {
@@ -134,11 +126,12 @@ namespace DL_Game_Factory
                     Name = $"GameGridColumn{i}"
                 };
                 GameGrid.ColumnDefinitions.Add(newColumn);
+                GameGrid.RegisterName(newColumn.Name, newColumn);
             }
 
-            for(int i = 0; i < rows; i++)
+            for (int i = 0; i < rows; i++)
             {
-                for(int j = 0; j < cols; j++)
+                for (int j = 0; j < cols; j++)
                 {
                     var newBorder = new Border
                     {
@@ -149,12 +142,45 @@ namespace DL_Game_Factory
                     Grid.SetRow(newBorder, i);
                     Grid.SetColumn(newBorder, j);
                     GameGrid.Children.Add(newBorder);
+                    GameGrid.RegisterName(newBorder.Name, newBorder);
                 }
             }
 
             GamePanel.Visibility = Visibility.Visible;
         }
 
+        private void RenderSnakeOnGameGrid()
+        {
+            var bodyPositions = snake.GetBodyPositions();
+
+            foreach (var position in bodyPositions)
+            {
+                Dispatcher.Invoke(() =>
+                {
+                    var border = GameGrid.FindName($"GameGridBorderR{position.X}C{position.Y}") as Border;
+                    border.Background = new SolidColorBrush(Colors.Black);
+                });
+            }
+        }
+
+        private void RenderSnakeOnGameGrid(SnakePosition oldPos, SnakePosition newPos)
+        {
+            Dispatcher.Invoke(() =>
+            {
+                // TBD: This is currently getting hit if snake dies. 
+
+                if (GameGrid.FindName($"GameGridBorderR{oldPos.X}C{oldPos.Y}") is Border oldBorder)
+                    oldBorder.Background = new SolidColorBrush(Colors.Transparent);
+
+                if (GameGrid.FindName($"GameGridBorderR{newPos.X}C{newPos.Y}") is Border newBorder)
+                    newBorder.Background = new SolidColorBrush(Colors.Black);
+            });
+        }
+
+        private void RenderCandyOnGameGrid()
+        {
+
+        }
 
         private void StartGameButton_Click(object sender, RoutedEventArgs e)
         {
@@ -214,7 +240,7 @@ namespace DL_Game_Factory
 
         private void PauseGameButton_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            PauseGameButton.Visibility = Visibility.Hidden;
+            PauseGameButton.Visibility = Visibility.Collapsed;
             ResumeGameButton.Visibility = Visibility.Visible;
             snake.PauseGame();
         }
@@ -222,7 +248,7 @@ namespace DL_Game_Factory
         private void ResumeGameButton_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             PauseGameButton.Visibility = Visibility.Visible;
-            ResumeGameButton.Visibility = Visibility.Hidden;
+            ResumeGameButton.Visibility = Visibility.Collapsed;
             snake.ResumeGame();
         }
 

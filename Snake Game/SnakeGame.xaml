@@ -5,6 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
         Title="Snake Game" Width="1600" Height="1000" WindowStartupLocation="CenterScreen">
+    <Window.InputBindings>
+        <KeyBinding Key="Left" Command="{Binding LeftArrowKeyCommand}" />
+        <KeyBinding Key="Right" Command="{Binding RightArrowKeyCommand}" />
+        <KeyBinding Key="Up" Command="{Binding UpArrowKeyCommand}" />
+        <KeyBinding Key="Down" Command="{Binding DownArrowKeyCommand}" />
+    </Window.InputBindings>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="5*"/>
@@ -42,14 +48,16 @@
             </StackPanel>
         </StackPanel>
 
-        <DockPanel Name="GamePanel" Grid.Row="1" Visibility="Hidden">
-            <Grid Name="GameGrid" HorizontalAlignment="Left" DockPanel.Dock="Right"/>
-            
+        <DockPanel Name="GamePanel" Grid.Row="1" Visibility="Hidden" LastChildFill="True">
             <DockPanel Margin="20" DockPanel.Dock="Left" >
-                <Image Source="\Images\Pause.jpg" Name="PauseGameButton" Height="170" MouseLeftButtonUp="PauseGameButton_MouseLeftButtonUp" DockPanel.Dock="Top" Margin="0,30,0,30"/>
-                <Image Source="\Images\Resume.jpg" Name="ResumeGameButton" Height="170" MouseLeftButtonUp="ResumeGameButton_MouseLeftButtonUp" Visibility="Hidden" DockPanel.Dock="Bottom" Margin="0,30,0,30" />
-                <Image Source="\Images\Stop.jpg" Name="StopGameButton" Height="170" MouseLeftButtonUp="StopGameButton_MouseLeftButtonUp" DockPanel.Dock="Bottom" Margin="0,30,0,30"/>
+                <Image Source="\Images\Pause.jpg" Name="PauseGameButton" Height="170" MouseLeftButtonUp="PauseGameButton_MouseLeftButtonUp" DockPanel.Dock="Top" Margin="0,20,0,0"/>
+                <Image Source="\Images\Resume.jpg" Name="ResumeGameButton" Height="170" MouseLeftButtonUp="ResumeGameButton_MouseLeftButtonUp" Visibility="Collapsed" DockPanel.Dock="Top" Margin="0,20,0,0" />
+                <Image Source="\Images\Stop.jpg" Name="StopGameButton" Height="170" MouseLeftButtonUp="StopGameButton_MouseLeftButtonUp" DockPanel.Dock="Bottom" Margin="0,20,0,0"/>
             </DockPanel>
+
+            <Grid Name="GameGrid" HorizontalAlignment="Left" DockPanel.Dock="Right" Margin="150,0,150,0" >
+                
+            </Grid>
         </DockPanel>
         
         <StackPanel Grid.Row="2" Orientation="Horizontal" Background="#FF878CFA">

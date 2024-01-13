@@ -2,8 +2,11 @@
 {
     public class SnakeDiesException : Exception
     {
-        private const string message = "Snake dies";
-        public SnakeDiesException() : base(message + ".") { }
-        public SnakeDiesException(string str) : base(message + " " + str) { }
+        // SnakeDiesReason Reason { get; set; }
+        public SnakeDiesException(SnakeDiesReason reason) : base("The snake dies because " + reason.ToString().Replace('_', ' ').ToLower() + ".")
+        {
+            // Reason = reason;
+        }
+        public SnakeDiesException() : this(SnakeDiesReason.Not_Defined) { }
     }
 }

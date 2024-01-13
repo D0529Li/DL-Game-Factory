@@ -1,6 +1,4 @@
-﻿using System.IO;
-using System.Windows;
-using System.Xml.Serialization;
+﻿using System.Windows;
 
 namespace DL_Game_Factory
 {
@@ -19,33 +17,5 @@ namespace DL_Game_Factory
             var snakeWindow = new SnakeGame();
             snakeWindow.Show();
         }
-
-
-
-        //private GameOptions _gameOptions = new GameOptions();
-
-        //private void ChoiceEnglish_Click(object sender, RoutedEventArgs e)
-        //{
-        //    _gameOptions.ChineseOrNo = false;
-        //    saveGameOptions();
-        //    DialogResult = true;
-        //    Close();
-        //}
-
-        //private void ChoiceChinese_Click(object sender, RoutedEventArgs e)
-        //{
-        //    _gameOptions.ChineseOrNo = true;
-        //    saveGameOptions();
-        //    DialogResult = true;
-        //    Close();
-        //}
-        //private void saveGameOptions()
-        //{
-        //    using (var stream = File.Open("GameOptions.xml", FileMode.Create))
-        //    {
-        //        var serializer = new XmlSerializer(typeof(GameOptions));
-        //        serializer.Serialize(stream, _gameOptions);
-        //    }
-        //}
     }
 }
