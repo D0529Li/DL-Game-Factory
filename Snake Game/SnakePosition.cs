@@ -5,34 +5,14 @@
         public int X { get; set; } = x;
         public int Y { get; set; } = y;
 
-        public SnakePosition Move(Direction direction, int gridSize)
+        public static bool operator ==(SnakePosition pos1, SnakePosition pos2)
         {
-            int newX = X, newY = Y;
-            switch (direction)
-            {
-                case Direction.Left:
-                    if (Y == 0)
-                        throw new SnakeDiesExceptions(SnakeDiesReason.Snake_Hits_The_Wall);
-                    newY--;
-                    break;
-                case Direction.Right:
-                    if (Y == gridSize - 1)
-                        throw new SnakeDiesExceptions(SnakeDiesReason.Snake_Hits_The_Wall);
-                    newY++;
-                    break;
-                case Direction.Up:
-                    if (X == 0) throw new SnakeDiesExceptions(SnakeDiesReason.Snake_Hits_The_Wall);
-                    newX--;
-                    break;
-                case Direction.Down:
-                    if (X == gridSize - 1)
-                        throw new SnakeDiesExceptions(SnakeDiesReason.Snake_Hits_The_Wall);
-                    newX++;
-                    break;
-                default:
-                    break;
-            }
-            return new SnakePosition(newX, newY);
+            return pos1.X == pos2.X && pos1.Y == pos2.Y;
+        }
+
+        public static bool operator !=(SnakePosition pos1, SnakePosition pos2)
+        {
+            return pos1.X != pos2.X || pos1.Y != pos2.Y;
         }
     }
 }

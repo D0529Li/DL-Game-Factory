@@ -138,14 +138,12 @@ namespace DL_Game_Factory
 
         private void RenderSnakeOnGameGrid()
         {
-            var bodyPositions = snake.GetBodyPositions();
-
-            foreach (var position in bodyPositions)
+            foreach (var position in snake.GetBodyPositions())
             {
                 Dispatcher.Invoke(() =>
                 {
-                    var border = GameGrid.FindName($"GameGridBorderR{position.X}C{position.Y}") as Border;
-                    border.Background = new SolidColorBrush(Colors.Black);
+                    if (GameGrid.FindName($"GameGridBorderR{position.X}C{position.Y}") is Border border)
+                        border.Background = new SolidColorBrush(Colors.Black);
                 });
             }
         }
@@ -164,9 +162,19 @@ namespace DL_Game_Factory
             });
         }
 
-        private void RenderCandyOnGameGrid()
+        private void RenderCandyOnGameGrid(int oldCandyX = -1, int oldCandyY = -1)
         {
-
+            Dispatcher.Invoke(() =>
+            {
+                if (oldCandyX != -1 && oldCandyY != -1)
+                {
+                    if (GameGrid.FindName($"GameGridBorderR{oldCandyX}C{oldCandyY}") is Border oldCandyBorder)
+                        oldCandyBorder.Background = new SolidColorBrush(Colors.Transparent);
+                }
+                
+                if (GameGrid.FindName($"GameGridBorderR{snake.Candy.X}C{snake.Candy.Y}") is Border newCandyBorder)
+                    newCandyBorder.Background = new SolidColorBrush(Colors.YellowGreen);
+            });
         }
 
         private void StartGameButton_Click(object sender, RoutedEventArgs e)
@@ -188,13 +196,26 @@ namespace DL_Game_Factory
             player.Name = PlayerNameTextBox.Text;
 
             snake.SnakeMoved += SnakeMovedHandler;
+            snake.SnakeDies += SnakeDiesHandler;
+            snake.SnakeEatsCandy += SnakeEatsCandyHandler;
             snakeGameVM.ArrowKeyPressed += snake.ChangeDirection;
 
             snake.Initialize(speed);
             BuildGameGrid();
             snakeGameVM.StartGame();
             RenderSnakeOnGameGrid();
+            RenderCandyOnGameGrid();
             snake.StartGame();
+        }
+
+        private void SnakeDiesHandler(SnakeDiesExceptions ex)
+        {
+            // SaveRecord();
+        }
+
+        private void SnakeEatsCandyHandler(int oldCandyX, int oldCandyY)
+        {
+            RenderCandyOnGameGrid(oldCandyX, oldCandyY);
         }
 
         private void SaveRecord()

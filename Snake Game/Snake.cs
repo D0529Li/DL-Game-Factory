@@ -1,5 +1,4 @@
-﻿using DL_Game_Factory;
-using System.Timers;
+﻿using System.Timers;
 using System.Windows;
 
 namespace DL_Game_Factory
@@ -7,13 +6,22 @@ namespace DL_Game_Factory
     public class Snake
     {
         public delegate void SnakeMovedHandler(SnakePosition oldPos, SnakePosition newPos);
+        public delegate void SnakeDiesHandler(SnakeDiesExceptions ex);
+        public delegate void SnakeEatsCandyHandler(int oldCandyX, int oldCandyY);
         public delegate void SnakeDirectionChangedHandler(Direction direction);
         public event SnakeMovedHandler? SnakeMoved;
+        public event SnakeDiesHandler? SnakeDies;
+        public event SnakeEatsCandyHandler? SnakeEatsCandy;
         public event SnakeDirectionChangedHandler? SnakeDirectionChanged;
+
+        /// <summary>
+        /// HEAD is the LAST element of the list.
+        /// TAIL is the FIRST element of the list.
+        /// </summary>
         private List<SnakePosition> BodyPositions = new();
         public Direction Direction { get; set; }
         private System.Timers.Timer timer = new();
-        private Candy candy = new Candy(SnakeConstants.DEFAULT_GRID_SIZE);
+        public Candy Candy = new Candy(SnakeConstants.DEFAULT_GRID_SIZE);
         public SpeedOptions Speed { get; set; } = SpeedOptions.Not_Selected;
 
         public Snake() { }
@@ -40,22 +48,47 @@ namespace DL_Game_Factory
 
         public void Move()
         {
-            SnakePosition newPos, oldPos;
+            var oldX = BodyPositions.Last().X;
+            var oldY = BodyPositions.Last().Y;
+            var newX = BodyPositions.Last().X;
+            var newY = BodyPositions.Last().Y;
+            switch (Direction)
+            {
+                case Direction.Left: newY--; break;
+                case Direction.Right: newY++; break;
+                case Direction.Up: newX--; break;
+                case Direction.Down: newX++; break;
+                default: break;
+            }
+
+            BodyPositions.Add(new(newX, newY));
+
             try
             {
-                newPos = BodyPositions[^1].Move(Direction, SnakeConstants.DEFAULT_GRID_SIZE);
-                oldPos = BodyPositions.First();
-                BodyPositions.Add(BodyPositions[^1].Move(Direction, SnakeConstants.DEFAULT_GRID_SIZE));
+                CheckIfSnakeDies();
             }
-            catch (SnakeDiesExceptions e)
+            catch (SnakeDiesExceptions ex)
             {
+                // TBD: should throw instead of using event. should not show message box here.
                 timer.Stop();
-                MessageBox.Show(e.Message + "\nYour score is " + $"{BodyPositions.Count}");
+                MessageBox.Show(ex.Message + "\nYour score is " + $"{BodyPositions.Count}");
+                SnakeDies?.Invoke(ex);
                 return;
             }
-            BodyPositions.RemoveAt(0);
 
-            SnakeMoved?.Invoke(oldPos, newPos);
+            // Check if snake eats candy
+            var candyEaten = false;
+            if (oldX == Candy.X && oldY == Candy.Y)
+            {
+                candyEaten = true;
+                Candy.GenerateCandy();
+                SnakeEatsCandy?.Invoke(Candy.X, Candy.Y);
+            }
+            if (!candyEaten)
+            {
+                SnakeMoved?.Invoke(BodyPositions.First(), new(newX, newY));
+                BodyPositions.RemoveAt(0);
+            }
         }
 
         public void Initialize(SpeedOptions speed)
@@ -75,6 +108,8 @@ namespace DL_Game_Factory
                 SpeedOptions.Fast => 500,
                 _ => 100
             };
+
+            Candy.GenerateCandy();
         }
 
         public void StartGame()
@@ -100,26 +135,18 @@ namespace DL_Game_Factory
             BodyPositions.Clear();
         }
 
-        private void Check()
+        private void CheckIfSnakeDies()
         {
             // Snake bites itself
             if (BodyPositions.Count != BodyPositions.Distinct().Count())
                 throw new SnakeDiesExceptions(SnakeDiesReason.Snake_Bites_Itself);
 
             // Snake hits the wall
+            if (BodyPositions.Last().X < 0 || BodyPositions.Last().X >= SnakeConstants.DEFAULT_GRID_SIZE ||
+                               BodyPositions.Last().Y < 0 || BodyPositions.Last().Y >= SnakeConstants.DEFAULT_GRID_SIZE)
+                throw new SnakeDiesExceptions(SnakeDiesReason.Snake_Hits_The_Wall);
 
-            // Snake eats candy
-            if (BodyPositions.Last() == new SnakePosition(candy.X, candy.Y))
-            {
-                candy.GenerateCandy();
-                throw new SnakeEatsCandyException();
-            }
-        }
-
-        private void CheckIfSnakeEatsItself()
-        {
-            if (BodyPositions.Count != BodyPositions.Distinct().Count())
-                throw new SnakeDiesExceptions(SnakeDiesReason.Snake_Bites_Itself);
+            
         }
     }
 }
