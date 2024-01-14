@@ -1,9 +1,10 @@
-﻿namespace DL_Game_Factory
+﻿using System.ComponentModel;
+
+namespace DL_Game_Factory
 {
     public class Candy
     {
-        public int X { get; set; } = -1;
-        public int Y { get; set; } = -1;
+        public Coordinate Coordinate { get; set; } = new Coordinate(-1, -1);
         public int GridSize { get; set; } = -1;
         public bool IsCandyValid { get; set; } = false;
 
@@ -14,11 +15,17 @@
             GridSize = gridSize;
         }
 
+        public Candy(int x, int y)
+        {
+            Coordinate.X = x;
+            Coordinate.Y = y;
+        }
+
         public void GenerateCandy()
         {
             Random random = new Random();
-            X = random.Next(0, GridSize);
-            Y = random.Next(0, GridSize);
+            Coordinate.X = random.Next(0, GridSize);
+            Coordinate.Y = random.Next(0, GridSize);
             IsCandyValid = true;
         }
 

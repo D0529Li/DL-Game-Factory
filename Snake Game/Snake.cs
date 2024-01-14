@@ -5,9 +5,9 @@ namespace DL_Game_Factory
 {
     public class Snake
     {
-        public delegate void SnakeMovedHandler(SnakePosition oldPos, SnakePosition newPos);
+        public delegate void SnakeMovedHandler(Coordinate oldPos, Coordinate newPos);
         public delegate void SnakeDiesHandler(SnakeDiesExceptions ex);
-        public delegate void SnakeEatsCandyHandler(int oldCandyX, int oldCandyY);
+        public delegate void SnakeEatsCandyHandler(Candy oldCandy);
         public delegate void SnakeDirectionChangedHandler(Direction direction);
         public event SnakeMovedHandler? SnakeMoved;
         public event SnakeDiesHandler? SnakeDies;
@@ -18,7 +18,7 @@ namespace DL_Game_Factory
         /// HEAD is the LAST element of the list.
         /// TAIL is the FIRST element of the list.
         /// </summary>
-        private List<SnakePosition> BodyPositions = new();
+        private List<Coordinate> BodyPositions = new();
         public Direction Direction { get; set; }
         private System.Timers.Timer timer = new();
         public Candy Candy = new Candy(SnakeConstants.DEFAULT_GRID_SIZE);
@@ -26,7 +26,7 @@ namespace DL_Game_Factory
 
         public Snake() { }
 
-        public List<SnakePosition> GetBodyPositions() => BodyPositions;
+        public List<Coordinate> GetBodyPositions() => BodyPositions;
 
         public void ChangeDirection(Direction newDirection)
         {
@@ -48,8 +48,6 @@ namespace DL_Game_Factory
 
         public void Move()
         {
-            var oldX = BodyPositions.Last().X;
-            var oldY = BodyPositions.Last().Y;
             var newX = BodyPositions.Last().X;
             var newY = BodyPositions.Last().Y;
             switch (Direction)
@@ -78,11 +76,12 @@ namespace DL_Game_Factory
 
             // Check if snake eats candy
             var candyEaten = false;
-            if (oldX == Candy.X && oldY == Candy.Y)
+            if (BodyPositions.Last() == Candy.Coordinate)
             {
                 candyEaten = true;
+                var oldCandy = new Candy(Candy.Coordinate.X, Candy.Coordinate.Y);
                 Candy.GenerateCandy();
-                SnakeEatsCandy?.Invoke(Candy.X, Candy.Y);
+                SnakeEatsCandy?.Invoke(oldCandy);
             }
             if (!candyEaten)
             {

@@ -86,7 +86,7 @@ namespace DL_Game_Factory
             speed = SpeedOptions.Fast;
         }
 
-        private void SnakeMovedHandler(SnakePosition oldPos, SnakePosition newPos)
+        private void SnakeMovedHandler(Coordinate oldPos, Coordinate newPos)
         {
             RenderSnakeOnGameGrid(oldPos, newPos);
         }
@@ -148,7 +148,7 @@ namespace DL_Game_Factory
             }
         }
 
-        private void RenderSnakeOnGameGrid(SnakePosition oldPos, SnakePosition newPos)
+        private void RenderSnakeOnGameGrid(Coordinate oldPos, Coordinate newPos)
         {
             Dispatcher.Invoke(() =>
             {
@@ -162,17 +162,17 @@ namespace DL_Game_Factory
             });
         }
 
-        private void RenderCandyOnGameGrid(int oldCandyX = -1, int oldCandyY = -1)
+        private void RenderCandyOnGameGrid(Candy? oldCandy = null)
         {
             Dispatcher.Invoke(() =>
             {
-                if (oldCandyX != -1 && oldCandyY != -1)
+                if (oldCandy != null && oldCandy.Coordinate.IsValid())
                 {
-                    if (GameGrid.FindName($"GameGridBorderR{oldCandyX}C{oldCandyY}") is Border oldCandyBorder)
-                        oldCandyBorder.Background = new SolidColorBrush(Colors.Transparent);
+                    if (GameGrid.FindName($"GameGridBorderR{oldCandy.Coordinate.X}C{oldCandy.Coordinate.Y}") is Border oldCandyBorder)
+                        oldCandyBorder.Background = new SolidColorBrush(Colors.Black);
                 }
                 
-                if (GameGrid.FindName($"GameGridBorderR{snake.Candy.X}C{snake.Candy.Y}") is Border newCandyBorder)
+                if (GameGrid.FindName($"GameGridBorderR{snake.Candy.Coordinate.X}C{snake.Candy.Coordinate.Y}") is Border newCandyBorder)
                     newCandyBorder.Background = new SolidColorBrush(Colors.YellowGreen);
             });
         }
@@ -213,9 +213,9 @@ namespace DL_Game_Factory
             // SaveRecord();
         }
 
-        private void SnakeEatsCandyHandler(int oldCandyX, int oldCandyY)
+        private void SnakeEatsCandyHandler(Candy oldCandy)
         {
-            RenderCandyOnGameGrid(oldCandyX, oldCandyY);
+            RenderCandyOnGameGrid(oldCandy);
         }
 
         private void SaveRecord()
