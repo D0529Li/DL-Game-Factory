@@ -3,14 +3,17 @@
     [Serializable]
     public class Records
     {
-        public Player RecordPlayer_Slow { get; set; } = new Player();
-        public Player RecordPlayer_Medium { get; set; } = new Player();
-        public Player RecordPlayer_Fast { get; set; } = new Player();
+        public Player RecordPlayer_Slow { get; set; } = new Player(SpeedOptions.Slow);
+        public Player RecordPlayer_Medium { get; set; } = new Player(SpeedOptions.Medium);
+        public Player RecordPlayer_Fast { get; set; } = new Player(SpeedOptions.Fast);
 
         public Records(Player player)
         {
             ModifyRecords(player);
         }
+
+        // Need this for serialization
+        public Records() { }
 
         public void ModifyRecords(Player player)
         {

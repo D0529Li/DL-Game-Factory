@@ -1,19 +1,20 @@
 ﻿using File_Organizer;
 using System.ComponentModel;
+using System.IO;
 using System.Windows.Input;
+using System.Xml.Serialization;
 
 namespace DL_Game_Factory
 {
     public class SnakeGameViewModel : INotifyPropertyChanged
     {
-        private int _score { get; set; } = 0;
         public Player Player { get; set; } = new Player();
         public int Score
         {
-            get { return _score; }
+            get { return Player.Score; }
             set
             {
-                _score = value;
+                Player.Score = value;
                 OnPropertyChanged(nameof(Score));
             }
         }
@@ -52,6 +53,12 @@ namespace DL_Game_Factory
             Score = 0;
         }
 
+        public void SetPlayer(string name, SpeedOptions speed)
+        {
+            Player.Name = name;
+            Player.Speed = speed;
+        }
+
         public void MakeNewGame(object param)
         {
             NewGamePanelVisibility = true;
@@ -73,6 +80,35 @@ namespace DL_Game_Factory
             OnPropertyChanged(nameof(NewGamePanelVisibility));
         }
 
+        public void SaveRecord()
+        {
+            if (File.Exists("Records.xml"))
+            {
+                Records records;
+                using (var stream = File.OpenRead("Records.xml"))
+                {
+                    var serializer = new XmlSerializer(typeof(Records));
+                    records = serializer.Deserialize(stream) as Records;
+                }
+                records.ModifyRecords(Player);
+                using (var stream = File.Open("Records.xml", FileMode.Create))
+                {
+                    var serializer = new XmlSerializer(typeof(Records));
+                    serializer.Serialize(stream, records);
+                }
+            }
+            else
+            {
+                using (var stream = File.Open("Records.xml", FileMode.Create))
+                {
+                    var serializer = new XmlSerializer(typeof(Records));
+                    serializer.Serialize(stream, new Records(Player));
+                }
+            }
+        }
+
+        #region Keyboard events
+
         public void OnPressLeftArrowKey(object param)
         {
             ArrowKeyPressed?.Invoke(Direction.Left);
@@ -92,6 +128,8 @@ namespace DL_Game_Factory
         {
             ArrowKeyPressed?.Invoke(Direction.Down);
         }
+
+        #endregion
 
         #region INotifyPropertyChanged Implements
 

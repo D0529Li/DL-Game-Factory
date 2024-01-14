@@ -1,6 +1,4 @@
-﻿using System.ComponentModel;
-
-namespace DL_Game_Factory
+﻿namespace DL_Game_Factory
 {
     public class Candy
     {

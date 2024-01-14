@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Timers;
-using System.Windows;
+﻿using System.Timers;
 
 namespace DL_Game_Factory
 {
@@ -70,7 +68,6 @@ namespace DL_Game_Factory
             {
                 // TBD: should throw instead of using event. should not show message box here.
                 timer.Stop();
-                MessageBox.Show(ex.Message + "\nYour score is " + $"{BodyPositions.Count}");
                 SnakeDies?.Invoke(ex);
                 return;
             }

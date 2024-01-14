@@ -14,26 +14,15 @@ namespace DL_Game_Factory
     /// </summary>
     public partial class SnakeGame : Window, INotifyPropertyChanged
     {
-
-        public delegate void TimerDelegate();
-
-        private Player player = new Player();
         private Snake snake = new Snake();
 
-        // private bool gameStarted = false;
         private SpeedOptions speed = SpeedOptions.Not_Selected;
-
         private SnakeGameViewModel snakeGameVM;
 
         public SnakeGame()
         {
             InitializeComponent();
             DataContext = snakeGameVM = new SnakeGameViewModel();
-        }
-
-        private void NewGameButton_Click(object sender, RoutedEventArgs e)
-        {
-
         }
 
         private void RecordsButton_Click(object sender, RoutedEventArgs e)
@@ -171,7 +160,7 @@ namespace DL_Game_Factory
                     if (GameGrid.FindName($"GameGridBorderR{oldCandy.Coordinate.X}C{oldCandy.Coordinate.Y}") is Border oldCandyBorder)
                         oldCandyBorder.Background = new SolidColorBrush(Colors.Black);
                 }
-                
+
                 if (GameGrid.FindName($"GameGridBorderR{snake.Candy.Coordinate.X}C{snake.Candy.Coordinate.Y}") is Border newCandyBorder)
                     newCandyBorder.Background = new SolidColorBrush(Colors.YellowGreen);
             });
@@ -179,21 +168,20 @@ namespace DL_Game_Factory
 
         private void StartGameButton_Click(object sender, RoutedEventArgs e)
         {
-            player.Name = PlayerNameTextBox.Text;
-            player.Speed = speed;
+            var name = PlayerNameTextBox.Text;
 
-            if (player.Name == null)
+            if (name == null)
             {
-                MessageBox.Show("Please enter a valid name. "); 
+                MessageBox.Show("Please enter a valid name. ");
                 return;
             }
-            if (player.Speed == SpeedOptions.Not_Selected)
+            if (speed == SpeedOptions.Not_Selected)
             {
                 MessageBox.Show("Please select a speed option.");
                 return;
             }
-            player.Speed = speed;
-            player.Name = PlayerNameTextBox.Text;
+
+            snakeGameVM.SetPlayer(name, speed);
 
             snake.SnakeMoved += SnakeMovedHandler;
             snake.SnakeDies += SnakeDiesHandler;
@@ -210,7 +198,8 @@ namespace DL_Game_Factory
 
         private void SnakeDiesHandler(SnakeDiesExceptions ex)
         {
-            // SaveRecord();
+            MessageBox.Show(ex.Message + "\nYour score is " + $"{snakeGameVM.Score}");
+            snakeGameVM.SaveRecord();
         }
 
         private void SnakeEatsCandyHandler(Candy oldCandy)
@@ -219,32 +208,6 @@ namespace DL_Game_Factory
             snakeGameVM.Score++;
         }
 
-        private void SaveRecord()
-        {
-            if (File.Exists("Records.xml"))
-            {
-                Records records;
-                using (var stream = File.OpenRead("Records.xml"))
-                {
-                    var serializer = new XmlSerializer(typeof(Records));
-                    records = serializer.Deserialize(stream) as Records;
-                }
-                records.ModifyRecords(player);
-                using (var stream = File.Open("Records.xml", FileMode.Create))
-                {
-                    var serializer = new XmlSerializer(typeof(Records));
-                    serializer.Serialize(stream, records);
-                }
-            }
-            else
-            {
-                using (var stream = File.Open("Records.xml", FileMode.Create))
-                {
-                    var serializer = new XmlSerializer(typeof(Records));
-                    serializer.Serialize(stream, new Records(player));
-                }
-            }
-        }
         private void RemoveRecordsRequest(object sender, RoutedEventArgs e)
         {
             var authentication = new RecordsRemovalAuthentication();
