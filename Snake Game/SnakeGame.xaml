@@ -28,7 +28,7 @@
 
         <StackPanel Grid.Row="1" Orientation="Horizontal" Background="#FF87B1FA">
             <StackPanel Visibility="{Binding MainControlPanelVisibility, Converter={StaticResource BooleanToVisibilityConverter}}" >
-                <Button Content="New Game" FontSize="22" FontFamily="Arial Rounded MT Bold" FontWeight="Bold" Margin="30" Padding="40" Click="NewGameButton_Click" Command="{Binding NewGameCommand}"/>
+                <Button Content="New Game" FontSize="22" FontFamily="Arial Rounded MT Bold" FontWeight="Bold" Margin="30" Padding="40" Click="NewGameButton_Click" Command="{Binding MakeNewGameCommand}"/>
                 <Button Content="Records" FontSize="22" FontFamily="Arial Rounded MT Bold" FontWeight="Bold" Margin="30" Padding="40" Click="RecordsButton_Click"/>
                 <Button Content="Exit" FontSize="22" FontFamily="Arial Rounded MT Bold" FontWeight="Bold" Margin="30" Padding="40" Click="ExitButton_Click"/>
             </StackPanel>

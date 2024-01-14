@@ -6,8 +6,18 @@ namespace DL_Game_Factory
 {
     public class SnakeGameViewModel : INotifyPropertyChanged
     {
-        public Player player { get; set; }
-        public int Score { get; set; }
+        private int _score { get; set; } = 0;
+        public Player Player { get; set; } = new Player();
+        public int Score
+        {
+            get { return _score; }
+            set
+            {
+                _score = value;
+                OnPropertyChanged(nameof(Score));
+            }
+        }
+
         public bool MainControlPanelVisibility { get; set; }
         public bool NewGamePanelVisibility { get; set; }
 
@@ -20,14 +30,14 @@ namespace DL_Game_Factory
         public ICommand RightArrowKeyCommand { get; set; }
         public ICommand UpArrowKeyCommand { get; set; }
         public ICommand DownArrowKeyCommand { get; set; }
-        public ICommand NewGameCommand { get; set; }
+        public ICommand MakeNewGameCommand { get; set; }
         public ICommand StartGameCommand { get; set; }
 
         #endregion Commands
 
         public SnakeGameViewModel()
         {
-            NewGameCommand = new DelegateCommand<object>(NewGame);
+            MakeNewGameCommand = new DelegateCommand<object>(MakeNewGame);
             StartGameCommand = new DelegateCommand<object>(StartGame);
             LeftArrowKeyCommand = new DelegateCommand<object>(OnPressLeftArrowKey);
             RightArrowKeyCommand = new DelegateCommand<object>(OnPressRightArrowKey);
@@ -39,11 +49,10 @@ namespace DL_Game_Factory
             OnPropertyChanged(nameof(MainControlPanelVisibility));
             OnPropertyChanged(nameof(NewGamePanelVisibility));
 
-            player = new Player();
             Score = 0;
         }
 
-        public void NewGame(object param)
+        public void MakeNewGame(object param)
         {
             NewGamePanelVisibility = true;
             OnPropertyChanged(nameof(NewGamePanelVisibility));
@@ -52,7 +61,8 @@ namespace DL_Game_Factory
         public void StartGame(object param)
         {
             // TBD: CHECK
-            player.Name = param.ToString();
+            Player.Name = param.ToString();
+            Score = 4;
         }
 
         public void StartGame()

@@ -1,4 +1,5 @@
-﻿using System.Timers;
+﻿using System.Collections.Generic;
+using System.Timers;
 using System.Windows;
 
 namespace DL_Game_Factory
@@ -80,7 +81,7 @@ namespace DL_Game_Factory
             {
                 candyEaten = true;
                 var oldCandy = new Candy(Candy.Coordinate.X, Candy.Coordinate.Y);
-                Candy.GenerateCandy();
+                Candy.GenerateCandy(BodyPositions);
                 SnakeEatsCandy?.Invoke(oldCandy);
             }
             if (!candyEaten)
@@ -108,7 +109,7 @@ namespace DL_Game_Factory
                 _ => 100
             };
 
-            Candy.GenerateCandy();
+            Candy.GenerateCandy(BodyPositions);
         }
 
         public void StartGame()
@@ -144,8 +145,6 @@ namespace DL_Game_Factory
             if (BodyPositions.Last().X < 0 || BodyPositions.Last().X >= SnakeConstants.DEFAULT_GRID_SIZE ||
                                BodyPositions.Last().Y < 0 || BodyPositions.Last().Y >= SnakeConstants.DEFAULT_GRID_SIZE)
                 throw new SnakeDiesExceptions(SnakeDiesReason.Snake_Hits_The_Wall);
-
-            
         }
     }
 }

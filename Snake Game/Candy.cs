@@ -21,11 +21,16 @@ namespace DL_Game_Factory
             Coordinate.Y = y;
         }
 
-        public void GenerateCandy()
+        public void GenerateCandy(List<Coordinate> bodyPositions)
         {
             Random random = new Random();
             Coordinate.X = random.Next(0, GridSize);
             Coordinate.Y = random.Next(0, GridSize);
+            while (bodyPositions.Contains(Coordinate))
+            {
+                Coordinate.X = random.Next(0, GridSize);
+                Coordinate.Y = random.Next(0, GridSize);
+            }
             IsCandyValid = true;
         }
 

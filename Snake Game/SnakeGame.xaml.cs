@@ -216,6 +216,7 @@ namespace DL_Game_Factory
         private void SnakeEatsCandyHandler(Candy oldCandy)
         {
             RenderCandyOnGameGrid(oldCandy);
+            snakeGameVM.Score++;
         }
 
         private void SaveRecord()
