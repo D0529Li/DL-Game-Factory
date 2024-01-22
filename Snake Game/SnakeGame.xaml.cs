@@ -1,6 +1,4 @@
-﻿using System.ComponentModel;
-using System.IO;
-using System.Text;
+﻿using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -12,12 +10,11 @@ namespace DL_Game_Factory
     /// <summary>
     /// Interaction logic for StartGame.xaml
     /// </summary>
-    public partial class SnakeGame : Window, INotifyPropertyChanged
+    public partial class SnakeGame : Window
     {
-        private Snake snake = new Snake();
-
+        private readonly Snake snake = new Snake();
+        private readonly SnakeGameViewModel snakeGameVM;
         private SpeedOptions speed = SpeedOptions.Not_Selected;
-        private SnakeGameViewModel snakeGameVM;
 
         public SnakeGame()
         {
@@ -28,6 +25,8 @@ namespace DL_Game_Factory
 
         private void RecordsButton_Click(object sender, RoutedEventArgs e)
         {
+            var result = "No records found.";
+
             if (File.Exists("Records.xml"))
             {
                 Records? records;
@@ -36,19 +35,19 @@ namespace DL_Game_Factory
                     var serializer = new XmlSerializer(typeof(Records));
                     records = serializer.Deserialize(stream) as Records;
                 }
-                StringBuilder s1 = new StringBuilder();
-                StringBuilder s2 = new StringBuilder();
-                StringBuilder s3 = new StringBuilder();
+                if (records == null)
+                    return;
+
                 if (records.RecordPlayer_Slow.Score != 0)
-                    s1.Append($"Slow: {records.RecordPlayer_Slow.Name} - {records.RecordPlayer_Slow.Score}");
+                    result = $"Slow: {records.RecordPlayer_Slow.Name} - {records.RecordPlayer_Slow.Score}";
                 if (records.RecordPlayer_Medium.Score != 0)
-                    s2.Append($"Medium: {records.RecordPlayer_Medium.Name} - {records.RecordPlayer_Medium.Score}");
+                    result += $"\nMedium: {records.RecordPlayer_Medium.Name} - {records.RecordPlayer_Medium.Score}";
                 if (records.RecordPlayer_Fast.Score != 0)
-                    s3.Append($"Fast: {records.RecordPlayer_Fast.Name} - {records.RecordPlayer_Fast.Score}");
-                MessageBox.Show(s1?.ToString() + "\n" + s2?.ToString() + "\n" + s3?.ToString());
+                    result += $"\nFast: {records.RecordPlayer_Fast.Name} - {records.RecordPlayer_Fast.Score}";
             }
-            else MessageBox.Show($"No records found. ");
+            MessageBox.Show(result);
         }
+
         private void ExitButton_Click(object sender, RoutedEventArgs e)
         {
             Close();
@@ -78,7 +77,7 @@ namespace DL_Game_Factory
 
         private void SnakeMovedHandler(Coordinate oldPos, Coordinate newPos)
         {
-            RenderSnakeOnGameGrid(oldPos, newPos);
+            RenderSnake(oldPos, newPos);
         }
 
         private void BuildGameGrid(int rows = SnakeConstants.DEFAULT_GRID_SIZE, int cols = SnakeConstants.DEFAULT_GRID_SIZE)
@@ -136,7 +135,7 @@ namespace DL_Game_Factory
             }
         }
 
-        private void RenderSnakeOnGameGrid()
+        private void RenderNewSnake()
         {
             foreach (var position in snake.GetBodyPositions())
             {
@@ -147,7 +146,7 @@ namespace DL_Game_Factory
                 });
             }
         }
-        private void RenderSnakeOnGameGrid(Coordinate oldPos, Coordinate newPos)
+        private void RenderSnake(Coordinate oldPos, Coordinate newPos)
         {
             Dispatcher.Invoke(() =>
             {
@@ -159,7 +158,7 @@ namespace DL_Game_Factory
             });
         }
 
-        private void RenderCandyOnGameGrid(Candy? oldCandy = null)
+        private void RenderCandy(Candy? oldCandy = null)
         {
             Dispatcher.Invoke(() =>
             {
@@ -189,31 +188,28 @@ namespace DL_Game_Factory
                 return;
             }
 
-            snakeGameVM.SetPlayer(name, speed);
-
             snake.SnakeMoved += SnakeMovedHandler;
             snake.SnakeDies += SnakeDiesHandler;
             snake.SnakeEatsCandy += SnakeEatsCandyHandler;
             snakeGameVM.ArrowKeyPressed += snake.BufferDirection;
 
             snake.Initialize(speed);
+            snakeGameVM.StartGame(name, speed);
             ReRenderGameGrid();
-            GamePanel.Visibility = Visibility.Visible;
-            snakeGameVM.StartGame();
-            RenderSnakeOnGameGrid();
-            RenderCandyOnGameGrid();
+            RenderNewSnake();
+            RenderCandy();
             snake.StartGame();
         }
 
         private void SnakeDiesHandler(SnakeDiesExceptions ex)
         {
             MessageBox.Show(ex.Message + "\nYour score is " + $"{snakeGameVM.Score}");
-            snakeGameVM.SaveRecord();
+            snakeGameVM.StopGame();
         }
 
         private void SnakeEatsCandyHandler(Candy oldCandy)
         {
-            RenderCandyOnGameGrid(oldCandy);
+            RenderCandy(oldCandy);
             snakeGameVM.Score++;
         }
 
@@ -224,7 +220,7 @@ namespace DL_Game_Factory
             if (authentication.DialogResult == true) RemoveAllRecords();
         }
 
-        private void RemoveAllRecords()
+        private static void RemoveAllRecords()
         {
             if (File.Exists("Records.xml"))
             {
@@ -253,7 +249,6 @@ namespace DL_Game_Factory
 
         private void StopGameButton_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            GamePanel.Visibility = Visibility.Hidden;
             snakeGameVM.StopGame();
             snake.StopGame();
         }
@@ -265,22 +260,6 @@ namespace DL_Game_Factory
         private void AboutMeButton_Click(object sender, RoutedEventArgs e)
         {
             MessageBox.Show("Place holder about me");
-        }
-
-        #region INotifyPropertyChanged Implements
-
-        private void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        public event PropertyChangedEventHandler? PropertyChanged;
-
-        #endregion
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-
         }
     }
 }

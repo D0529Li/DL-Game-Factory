@@ -8,7 +8,7 @@ namespace DL_Game_Factory
 {
     public class SnakeGameViewModel : INotifyPropertyChanged
     {
-        public Player Player { get; set; } = new Player();
+        private Player Player { get; set; } = new Player();
         public int Score
         {
             get { return Player.Score; }
@@ -19,8 +19,40 @@ namespace DL_Game_Factory
             }
         }
 
-        public bool MainControlPanelVisibility { get; set; }
-        public bool NewGamePanelVisibility { get; set; }
+        private bool _mainControlPanelVisibility;
+        private bool _newGamePanelVisibility;
+        private bool _gamePanelVisibility;
+
+
+        public bool MainControlPanelVisibility
+        {
+            get => _mainControlPanelVisibility;
+            set
+            {
+                _mainControlPanelVisibility = value;
+                OnPropertyChanged(nameof(MainControlPanelVisibility));
+            }
+        }
+
+        public bool NewGamePanelVisibility
+        {
+            get => _newGamePanelVisibility;
+            set
+            {
+                _newGamePanelVisibility = value;
+                OnPropertyChanged(nameof(NewGamePanelVisibility));
+            }
+        }
+
+        public bool GamePanelVisibility
+        {
+            get => _gamePanelVisibility;
+            set
+            {
+                _gamePanelVisibility = value;
+                OnPropertyChanged(nameof(GamePanelVisibility));
+            }
+        }
 
         public delegate void ArrowKeyPressedHandler(Direction direction);
         public event ArrowKeyPressedHandler? ArrowKeyPressed;
@@ -45,36 +77,31 @@ namespace DL_Game_Factory
 
             MainControlPanelVisibility = true;
             NewGamePanelVisibility = false;
-            OnPropertyChanged(nameof(MainControlPanelVisibility));
-            OnPropertyChanged(nameof(NewGamePanelVisibility));
-        }
-
-        public void SetPlayer(string name, SpeedOptions speed)
-        {
-            Player.Name = name;
-            Player.Speed = speed;
+            GamePanelVisibility = false;
         }
 
         public void MakeNewGame(object param)
         {
             NewGamePanelVisibility = true;
-            OnPropertyChanged(nameof(NewGamePanelVisibility));
         }
 
-        public void StartGame()
+        public void StartGame(string name, SpeedOptions speed)
         {
+            Player.Name = name;
+            Player.Speed = speed;
             MainControlPanelVisibility = false;
             NewGamePanelVisibility = false;
-            OnPropertyChanged(nameof(MainControlPanelVisibility));
-            OnPropertyChanged(nameof(NewGamePanelVisibility));
+            GamePanelVisibility = true;
             Score = 4;
         }
 
         public void StopGame()
         {
+            SaveRecord();
             Score = 0;
             MainControlPanelVisibility = true;
-            OnPropertyChanged(nameof(MainControlPanelVisibility));
+            NewGamePanelVisibility = true;
+            GamePanelVisibility = false;
         }
 
         public void SaveRecord()
