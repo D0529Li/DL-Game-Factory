@@ -186,7 +186,7 @@ namespace DL_Game_Factory
             snake.SnakeMoved += SnakeMovedHandler;
             snake.SnakeDies += SnakeDiesHandler;
             snake.SnakeEatsCandy += SnakeEatsCandyHandler;
-            snakeGameVM.ArrowKeyPressed += snake.ChangeDirection;
+            snakeGameVM.ArrowKeyPressed += snake.BufferDirection;
 
             snake.Initialize(speed);
             BuildGameGrid();
