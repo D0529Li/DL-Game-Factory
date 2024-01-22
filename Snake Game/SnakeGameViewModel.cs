@@ -32,14 +32,12 @@ namespace DL_Game_Factory
         public ICommand UpArrowKeyCommand { get; set; }
         public ICommand DownArrowKeyCommand { get; set; }
         public ICommand MakeNewGameCommand { get; set; }
-        public ICommand StartGameCommand { get; set; }
 
         #endregion Commands
 
         public SnakeGameViewModel()
         {
             MakeNewGameCommand = new DelegateCommand<object>(MakeNewGame);
-            StartGameCommand = new DelegateCommand<object>(StartGame);
             LeftArrowKeyCommand = new DelegateCommand<object>(OnPressLeftArrowKey);
             RightArrowKeyCommand = new DelegateCommand<object>(OnPressRightArrowKey);
             UpArrowKeyCommand = new DelegateCommand<object>(OnPressUpArrowKey);
@@ -49,8 +47,6 @@ namespace DL_Game_Factory
             NewGamePanelVisibility = false;
             OnPropertyChanged(nameof(MainControlPanelVisibility));
             OnPropertyChanged(nameof(NewGamePanelVisibility));
-
-            Score = 0;
         }
 
         public void SetPlayer(string name, SpeedOptions speed)
@@ -65,19 +61,13 @@ namespace DL_Game_Factory
             OnPropertyChanged(nameof(NewGamePanelVisibility));
         }
 
-        public void StartGame(object param)
-        {
-            // TBD: CHECK
-            Player.Name = param.ToString();
-            Score = 4;
-        }
-
         public void StartGame()
         {
             MainControlPanelVisibility = false;
             NewGamePanelVisibility = false;
             OnPropertyChanged(nameof(MainControlPanelVisibility));
             OnPropertyChanged(nameof(NewGamePanelVisibility));
+            Score = 4;
         }
 
         public void StopGame()

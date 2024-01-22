@@ -44,7 +44,7 @@
                     <Button Name="SpeedMediumButton" Content="Medium" Width="180" Height="60" FontSize="40" Margin="5,0,0,0" Background="Gray" Command="{Binding SetSpeedCommand}" CommandParameter="Medium" Click="SpeedMediumButton_Click" />
                     <Button Name="SpeedFastButton" Content="Fast" Width="180" Height="60" FontSize="40" Margin="5,0,0,0" Background="Gray" Command="{Binding SetSpeedCommand}" CommandParameter="Fast" Click="SpeedFastButton_Click" />
                 </StackPanel>
-                <Button Content="Start Game! " FontSize="40" Margin="100,50,100,0" Padding="20" Click="StartGameButton_Click" Command="{Binding StartGameCommand}" CommandParameter="{Binding ElementName=PlayerNameTextBox, Path=Text}" />
+                <Button Content="Start Game! " FontSize="40" Margin="100,50,100,0" Padding="20" Click="StartGameButton_Click" />
             </StackPanel>
         </StackPanel>
 
