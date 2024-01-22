@@ -1,6 +1,6 @@
 ﻿using System.Timers;
 
-namespace DL_Game_Factory
+namespace DL_Game_Factory.Snake_Game
 {
     public class Snake
     {
@@ -139,7 +139,8 @@ namespace DL_Game_Factory
             if (!candyEaten)
             {
                 SnakeMoved?.Invoke(BodyPositions.First(), new(newX, newY));
-                BodyPositions.RemoveAt(0);
+                if (timer.Enabled)
+                    BodyPositions.RemoveAt(0);
             }
         }
 

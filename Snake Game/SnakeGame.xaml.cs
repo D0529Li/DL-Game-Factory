@@ -5,7 +5,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Xml.Serialization;
 
-namespace DL_Game_Factory
+namespace DL_Game_Factory.Snake_Game
 {
     /// <summary>
     /// Interaction logic for StartGame.xaml

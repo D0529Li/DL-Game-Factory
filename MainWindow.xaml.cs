@@ -14,7 +14,7 @@ namespace DL_Game_Factory
 
         private void OnSnakeButtonClick(object sender, RoutedEventArgs e)
         {
-            var snakeWindow = new SnakeGame();
+            var snakeWindow = new Snake_Game.SnakeGame();
             snakeWindow.Show();
         }
     }

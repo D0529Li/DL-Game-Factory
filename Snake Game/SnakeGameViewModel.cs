@@ -4,7 +4,7 @@ using System.IO;
 using System.Windows.Input;
 using System.Xml.Serialization;
 
-namespace DL_Game_Factory
+namespace DL_Game_Factory.Snake_Game
 {
     public class SnakeGameViewModel : INotifyPropertyChanged
     {
