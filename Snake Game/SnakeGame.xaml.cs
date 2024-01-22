@@ -19,8 +19,12 @@ namespace DL_Game_Factory
         public SnakeGame()
         {
             InitializeComponent();
-            BuildGameGrid();
             DataContext = snakeGameVM = new SnakeGameViewModel();
+            BuildGameGrid();
+            snake.SnakeMoved += SnakeMovedHandler;
+            snake.SnakeDies += SnakeDiesHandler;
+            snake.SnakeEatsCandy += SnakeEatsCandyHandler;
+            snakeGameVM.ArrowKeyPressed += snake.BufferDirection;
         }
 
         private void RecordsButton_Click(object sender, RoutedEventArgs e)
@@ -188,16 +192,11 @@ namespace DL_Game_Factory
                 return;
             }
 
-            snake.SnakeMoved += SnakeMovedHandler;
-            snake.SnakeDies += SnakeDiesHandler;
-            snake.SnakeEatsCandy += SnakeEatsCandyHandler;
-            snakeGameVM.ArrowKeyPressed += snake.BufferDirection;
-
             snake.Initialize(speed);
-            snakeGameVM.StartGame(name, speed);
             ReRenderGameGrid();
             RenderNewSnake();
             RenderCandy();
+            snakeGameVM.StartGame(name, speed);
             snake.StartGame();
         }
 

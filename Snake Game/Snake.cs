@@ -27,7 +27,7 @@ namespace DL_Game_Factory
 
         public Direction Direction { get; set; }
         public Direction BufferedDirection { get; set; }
-        
+
         public Candy Candy = new Candy(SnakeConstants.DEFAULT_GRID_SIZE);
         public SpeedOptions Speed { get; set; } = SpeedOptions.Not_Selected;
 
@@ -51,7 +51,7 @@ namespace DL_Game_Factory
         public void Timer_Elapsed(object? sender, ElapsedEventArgs e)
         {
             Move();
-        }        
+        }
 
         public void Initialize(SpeedOptions speed)
         {
@@ -123,6 +123,7 @@ namespace DL_Game_Factory
             {
                 timer.Stop();
                 SnakeDies?.Invoke(ex);
+                StopGame();
                 return;
             }
 

@@ -16,6 +16,15 @@ namespace DL_Game_Factory
             {
                 Player.Score = value;
                 OnPropertyChanged(nameof(Score));
+                OnPropertyChanged(nameof(DisplayedScore));
+            }
+        }
+
+        public string DisplayedScore
+        {
+            get
+            {
+                return $"Score: {Score}";
             }
         }
 
