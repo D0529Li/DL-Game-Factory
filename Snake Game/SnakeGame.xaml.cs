@@ -22,6 +22,7 @@ namespace DL_Game_Factory
         public SnakeGame()
         {
             InitializeComponent();
+            BuildGameGrid();
             DataContext = snakeGameVM = new SnakeGameViewModel();
         }
 
@@ -88,8 +89,8 @@ namespace DL_Game_Factory
             {
                 var newRow = new RowDefinition
                 {
-                    Height = new GridLength(45), // auto?
-                    Name = $"GameGridRow{i}",
+                    Height = new GridLength(45),
+                    Name = $"GameGridRow{i}"
                 };
                 GameGrid.RowDefinitions.Add(newRow);
                 GameGrid.RegisterName(newRow.Name, newRow);
@@ -98,7 +99,7 @@ namespace DL_Game_Factory
             {
                 var newColumn = new ColumnDefinition
                 {
-                    Width = new GridLength(45), // auto?
+                    Width = new GridLength(45),
                     Name = $"GameGridColumn{i}"
                 };
                 GameGrid.ColumnDefinitions.Add(newColumn);
@@ -121,8 +122,18 @@ namespace DL_Game_Factory
                     GameGrid.RegisterName(newBorder.Name, newBorder);
                 }
             }
+        }
 
-            GamePanel.Visibility = Visibility.Visible;
+        private void ReRenderGameGrid()
+        {
+            foreach (var position in GameGrid.Children)
+            {
+                Dispatcher.Invoke(() =>
+                {
+                    if (position is Border border)
+                        border.Background = new SolidColorBrush(Colors.Transparent);
+                });
+            }
         }
 
         private void RenderSnakeOnGameGrid()
@@ -136,13 +147,10 @@ namespace DL_Game_Factory
                 });
             }
         }
-
         private void RenderSnakeOnGameGrid(Coordinate oldPos, Coordinate newPos)
         {
             Dispatcher.Invoke(() =>
             {
-                // TBD: This is currently getting hit if snake dies. 
-
                 if (GameGrid.FindName($"GameGridBorderR{oldPos.X}C{oldPos.Y}") is Border oldBorder)
                     oldBorder.Background = new SolidColorBrush(Colors.Transparent);
 
@@ -189,7 +197,8 @@ namespace DL_Game_Factory
             snakeGameVM.ArrowKeyPressed += snake.BufferDirection;
 
             snake.Initialize(speed);
-            BuildGameGrid();
+            ReRenderGameGrid();
+            GamePanel.Visibility = Visibility.Visible;
             snakeGameVM.StartGame();
             RenderSnakeOnGameGrid();
             RenderCandyOnGameGrid();
@@ -244,7 +253,9 @@ namespace DL_Game_Factory
 
         private void StopGameButton_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            Close();
+            GamePanel.Visibility = Visibility.Hidden;
+            snakeGameVM.StopGame();
+            snake.StopGame();
         }
 
         private void AboutGameButton_Click(object sender, RoutedEventArgs e)

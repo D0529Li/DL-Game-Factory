@@ -80,6 +80,13 @@ namespace DL_Game_Factory
             OnPropertyChanged(nameof(NewGamePanelVisibility));
         }
 
+        public void StopGame()
+        {
+            Score = 0;
+            MainControlPanelVisibility = true;
+            OnPropertyChanged(nameof(MainControlPanelVisibility));
+        }
+
         public void SaveRecord()
         {
             if (File.Exists("Records.xml"))
