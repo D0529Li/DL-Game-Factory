@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
         Title="Snake Game" Width="1600" Height="1000" WindowStartupLocation="CenterScreen">
     <Window.Resources>
@@ -29,7 +30,7 @@
             <Label Margin="30,90,0,0" Content="designed by David Li" FontFamily="Comic Sans MS" FontSize="30" FontStyle="Italic" />
         </StackPanel>
         
-        <Button Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Top" Width="63" Height="46" Background="Transparent" BorderBrush="Transparent" Click="RemoveRecordsRequest"/>
+        <Button Content="Remove Records" Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Top" Background="YellowGreen" BorderBrush="Transparent" Click="RemoveRecordsRequest" FontSize="20" FontWeight="Bold" Padding="10"/>
 
         <StackPanel Grid.Row="1" Orientation="Horizontal" Background="#FF87B1FA">
             <StackPanel Visibility="{Binding MainControlPanelVisibility, Converter={StaticResource BooleanToVisibilityConverter}}" >
@@ -55,9 +56,9 @@
 
         <DockPanel Name="GamePanel" Grid.Row="1" Visibility="{Binding GamePanelVisibility, Converter={StaticResource BooleanToVisibilityConverter}}" LastChildFill="True">
             <DockPanel Margin="20" DockPanel.Dock="Left" >
-                <Image Source="\Images\Pause.jpg" Name="PauseGameButton" Height="170" MouseLeftButtonUp="PauseGameButton_MouseLeftButtonUp" DockPanel.Dock="Top" Margin="0,20,0,0"/>
-                <Image Source="\Images\Resume.jpg" Name="ResumeGameButton" Height="170" MouseLeftButtonUp="ResumeGameButton_MouseLeftButtonUp" Visibility="Collapsed" DockPanel.Dock="Top" Margin="0,20,0,0" />
-                <Image Source="\Images\Stop.jpg" Height="170" MouseLeftButtonUp="StopGameButton_MouseLeftButtonUp" DockPanel.Dock="Bottom" Margin="0,20,0,0"/>
+                <materialDesign:PackIcon Kind="PauseBox" Height="170" Width="170" Name="PauseGameButton" MouseLeftButtonUp="PauseGameButton_MouseLeftButtonUp" DockPanel.Dock="Top" Margin="0,30,0,0"/>
+                <materialDesign:PackIcon Kind="PlayBox" Height="170" Width="170" Name="ResumeGameButton" MouseLeftButtonUp="ResumeGameButton_MouseLeftButtonUp" Visibility="Collapsed" DockPanel.Dock="Top" Margin="0,30,0,0"/>
+                <materialDesign:PackIcon Kind="StopCircle" Height="170" Width="170" MouseLeftButtonUp="StopGameButton_MouseLeftButtonUp" DockPanel.Dock="Bottom" Margin="0,60,0,0"/>
             </DockPanel>
 
             <Grid Name="GameGrid" HorizontalAlignment="Left" DockPanel.Dock="Right" Margin="150,0,150,0" />

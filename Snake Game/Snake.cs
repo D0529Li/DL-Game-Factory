@@ -65,9 +65,9 @@ namespace DL_Game_Factory.Snake_Game
 
             timer.Interval = Speed switch
             {
-                SpeedOptions.Slow => 1500,
-                SpeedOptions.Medium => 1000,
-                SpeedOptions.Fast => 500,
+                SpeedOptions.Slow => 1000,
+                SpeedOptions.Medium => 600,
+                SpeedOptions.Fast => 300,
                 _ => 100
             };
 

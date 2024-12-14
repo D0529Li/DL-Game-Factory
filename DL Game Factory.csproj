@@ -7,6 +7,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
+    <ApplicationIcon>App.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
@@ -24,10 +25,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Images\Pause.jpg" />
-    <Resource Include="Images\Resume.jpg" />
+    <PackageReference Include="MaterialDesignThemes" Version="5.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Resource Include="Images\Snake.jpg" />
-    <Resource Include="Images\Stop.jpg" />
   </ItemGroup>
 
 </Project>
