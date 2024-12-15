@@ -4,11 +4,11 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="DL Game Factory" Height="500" Width="1200"
+        Title="Snake Game" Height="500" Width="1200"
         Background="LightBlue" WindowStartupLocation="CenterScreen">
     <Grid>
         <StackPanel Orientation="Vertical">
-            <TextBlock Text="Welcome to the Game Factory designed by David Li." HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="50" FontFamily="Roboto" Margin="0,50,0,0"/>
+            <TextBlock Text="Welcome to the Snake Game designed by David Li." FontWeight="DemiBold" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="50" FontFamily="Roboto" Margin="0,50,0,0"/>
 
             <StackPanel Orientation="Horizontal" Margin="30,100,30,0" HorizontalAlignment="Center">
                 <Button Content="Get me in the game!!!" Click="OnSnakeButtonClick" FontFamily="Times New Roman" FontSize="40" HorizontalAlignment="Center" Padding="50" Margin="30,0,30,0" />
