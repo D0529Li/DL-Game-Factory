@@ -42,7 +42,7 @@
             <StackPanel Orientation="Vertical" Visibility="{Binding NewGamePanelVisibility, Converter={StaticResource BooleanToVisibilityConverter}}">
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Text="Enter your name: " VerticalAlignment="Center" FontSize="40" Padding="30"/>
-                    <TextBox Name="PlayerNameTextBox" VerticalAlignment="Center" Background="LightGoldenrodYellow" FontSize="35" Width="400" Height="75"/>
+                    <TextBox Name="PlayerNameTextBox" TextAlignment="Center" VerticalAlignment="Center" Background="LightGoldenrodYellow" FontSize="35" Width="400" Height="75"/>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" Margin="0,50,0,50">
                     <TextBlock Text="Choose speed: " FontSize="40" Padding="30" VerticalAlignment="Center" />
