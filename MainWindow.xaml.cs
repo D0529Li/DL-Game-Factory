@@ -14,8 +14,9 @@ namespace Snake_Game
 
         private void OnSnakeButtonClick(object sender, RoutedEventArgs e)
         {
-            var snakeWindow = new Snake_Game.SnakeGame();
+            var snakeWindow = new SnakeGame();
             snakeWindow.Show();
+            Close();
         }
     }
 }

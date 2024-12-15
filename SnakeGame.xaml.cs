@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Diagnostics;
+using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -254,11 +255,19 @@ namespace Snake_Game
 
         private void AboutGameButton_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Place holder about game");
+            Process.Start(new ProcessStartInfo
+            {
+                FileName = "https://en.wikipedia.org/wiki/Snake_(video_game_genre)",
+                UseShellExecute = true
+            });
         }
         private void AboutMeButton_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Place holder about me");
+            Process.Start(new ProcessStartInfo
+            {
+                FileName = "https://www.linkedin.com/in/yuchen-li-418a68158/",
+                UseShellExecute = true
+            });
         }
     }
 }
