@@ -18,13 +18,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="Images\Pause.jpg" />
-    <None Remove="Images\Resume.jpg" />
-    <None Remove="Images\Snake.jpg" />
-    <None Remove="Images\Stop.jpg" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="MaterialDesignThemes" Version="5.1.0" />
   </ItemGroup>
 
