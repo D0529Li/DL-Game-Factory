@@ -1,4 +1,4 @@
-﻿namespace DL_Game_Factory.Snake_Game
+﻿namespace Snake_Game
 {
     public class Candy
     {
